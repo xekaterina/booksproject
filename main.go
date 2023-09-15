@@ -38,22 +38,32 @@ func main() {
 		dat, err := os.ReadFile("books/" + name)
 		check(err)
 
-		s := strings.Split(string(dat), "\n")
-		fmt.Println(s[1])
+		fileLines := strings.Split(string(dat), "\n")
+		// fmt.Println(fileLines[1])
 
-		year, err := strconv.Atoi(s[3])
+		dirtyGenre := strings.Split(fileLines[2], " ")
+		genre := (strings.Join(dirtyGenre[1:], " "))
+
 		if err != nil {
 			// ... handle error
 			panic(err)
 		}
 
-		rating, err := strconv.Atoi(s[4])
+		dirtyYear := strings.Split(fileLines[3], " ")
+		year, err := strconv.Atoi(dirtyYear[1])
 		if err != nil {
 			// ... handle error
 			panic(err)
 		}
 
-		var book = Book{Name: name, Author: s[1], Genre: s[2], Year: year, Rating: rating}
+		dirtyRating := strings.Split(fileLines[4], " ")
+		rating, err := strconv.Atoi(dirtyRating[1])
+		if err != nil {
+			// ... handle error
+			panic(err)
+		}
+
+		var book = Book{Name: name, Author: fileLines[1], Genre: genre, Year: year, Rating: rating}
 		books = append(books, book)
 	}
 	fmt.Println(books)
